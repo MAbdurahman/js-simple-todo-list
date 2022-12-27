@@ -24,3 +24,230 @@
     outline: none;
 }
 
+/*=============================================
+          root, html, and body styles
+================================================*/
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+/*=============================================
+          #main styles
+================================================*/
+
+#main {
+    width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    align-items: center;
+}
+
+#add-container {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+#title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 50px;
+}
+
+#add-input {
+    flex-basis: 40%;
+    height: 50px;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid #404040;
+    border-right: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-transform: capitalize;
+}
+
+#list-container {
+    width: 98%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    text-align: left;
+}
+
+#list {
+    width: 100%;
+    list-style-type: none;
+    font-size: 32px;
+    flex-basis: 80%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* =============================================
+               button
+   ============================================= */
+
+/*#add-button {
+    font-size: 16px;
+}*/
+
+.button {
+    padding: 8px 16px;
+    border: 3px solid #404040;
+    border-radius: 5px;
+    color: #262626;
+    color: #d9d9d9;
+    background-color: #d9d9d9;
+    background-color: #111111;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.333s ease-in-out;
+}
+
+.button:hover {
+    color: hsl(0, 0%, 100%);
+    background: #626262 radial-gradient(circle, transparent 1%, #626262 1%) center/15000%;
+}
+
+.button:active {
+    background-color: #404040;
+    background-size: 100%;
+    transition: all 0.333s ease-in-out;
+}
+
+.swal-button {
+    background-color: #111111;
+}
+
+.swal-button:not([disabled]):hover {
+    background: #626262 radial-gradient(circle, transparent 1%, #626262 1%) center/15000%;
+}
+
+/*=============================================
+      checkbox
+================================================*/
+
+.todo-item {
+    width: 108%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+input[type="checkbox"] {
+    -ms-transform: scale(3);
+    -moz-transform: scale(3);
+    -webkit-transform: scale(3);
+    -o-transform: scale(3);
+    transform: scale(3);
+    margin-right: 24px;
+    background: #111111;
+    color: hsl(0, 0%, 99%);
+}
+
+input[type="checkbox"]:checked {
+    background: #111111;
+    color: hsl(0, 0%, 99%);
+}
+
+
+span.item {
+    width: 100%;
+    width: fit-content;
+    font-size: 32px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+input.completed~span {
+    text-decoration: line-through;
+    font-size: 32px;
+
+}
+
+/* remove default checkbox */
+.custom input {
+    width: 0;
+    height: 0;
+}
+
+/* custom checkbox styling */
+.custom {
+    position: relative;
+    display: block;
+    padding-left: 32px;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+/* custom checkbox square */
+.checkmark {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    background-color: #111111;
+}
+
+.custom:hover .checkmark {
+    background-color: #626262;
+}
+
+/* checked state on styling */
+.custom input:checked~.checkmark {
+    background-color: #626262;
+
+}
+
+/* add the check mark indicator */
+.checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+.custom input:checked~.checkmark::after {
+    display: block;
+}
+
+.custom .checkmark::after {
+    content: '';
+    width: 8px;
+    height: 21px;
+    top: 1px;
+    left: 13px;
+    border: solid #d9d9d9;
+    border-width: 0 3px 5px 0;
+    transform: rotate(50deg);
+}
+
+/* =============================================
+      icon
+   ============================================= */
+.fas {
+    color: #111111;
+    cursor: pointer;
+    transition: color 0.333s ease-in-out;
+}
+
+.fas:hover {
+    color: hsla(0, 87%, 49%, 1.0)
+}
