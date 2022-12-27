@@ -58,7 +58,6 @@ window.onload = function () {
                             icon: "success",
                         });
                         listHead.removeChild(e.target.parentElement);
-                        localStorage.removeItem();
                         todoItems--;
 
                     } else {
@@ -81,9 +80,9 @@ window.onload = function () {
             const clone = document.importNode(template.content, true);
             clone.querySelector('.item').textContent = inputValue;
             clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
-            todoItems++;
-
             listHead.appendChild(clone);
+
+            todoItems++;
 
             setTimeout(() => {
                 addInput.value = '';
@@ -92,7 +91,6 @@ window.onload = function () {
         }
 
     }; //end of the enterTodoItem function
-
 
     //**************** add event listeners ****************//
     addButton.addEventListener('click', addTodoItem);

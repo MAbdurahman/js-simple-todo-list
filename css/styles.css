@@ -228,7 +228,6 @@ input[type="checkbox"]:checked {
     color: hsl(0, 0%, 99%);
 }
 
-
 span.item {
     width: 100%;
     width: fit-content;
