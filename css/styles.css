@@ -27,8 +27,52 @@
 /*=============================================
           root, html, and body styles
 ================================================*/
+
+html {
+    font-size: 100%;
+}
 body {
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
     font-family: 'DM Sans', sans-serif;
+    letter-spacing: 1px;
+    overflow-x: hidden;
+
+}
+
+.wrapper {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+@media (min-width: 576px) {
+    .wrapper {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .wrapper {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .wrapper {
+        max-width: 1140px;
+    }
 }
 
 /*=============================================
@@ -36,12 +80,24 @@ body {
 ================================================*/
 
 #main {
-    width: 640px;
+    max-width: 640px;
+
     margin: 0 auto;
     display: flex;
     flex-flow: column;
     justify-content: center;
 }
+/*@media (max-width: 576px) {
+    html{
+        font-size: 62.5%;
+    }
+    #main {
+        width: calc(100% - 16px);
+    }
+    .button {
+        font-size: .75rem;
+    }
+}*/
 
 #header {
     display: flex;
@@ -101,14 +157,14 @@ body {
 }*/
 
 .button {
-    padding: 8px 16px;
+    padding: .5em 1em;
     border: 3px solid #404040;
     border-radius: 5px;
     color: #262626;
     color: #d9d9d9;
     background-color: #d9d9d9;
     background-color: #111111;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -129,10 +185,16 @@ body {
 
 .swal-button {
     background-color: #111111;
+    color: #d9d9d9;
 }
 
 .swal-button:not([disabled]):hover {
     background: #626262 radial-gradient(circle, transparent 1%, #626262 1%) center/15000%;
+}
+
+.swal-button--cancel {
+    color: #d9d9d9;
+    background-color: #111111;
 }
 
 /*=============================================

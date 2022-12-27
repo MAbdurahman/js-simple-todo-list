@@ -8,7 +8,6 @@ window.onload = function () {
     const addInput = document.getElementById("add-input");
     const listHead = document.getElementById("list");
 
-
     let todoItems = 0;
 
     //**************** functions ****************//
@@ -44,12 +43,37 @@ window.onload = function () {
         }
     }; //end of completedTodoItem function
 
+    const deleteTodoItem = e => {
+        if (e.target.classList.contains('fa-trash-alt')) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, impossible to recover!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Your todo item has been deleted!", {
+                            icon: "success",
+                        });
+                        listHead.removeChild(e.target.parentElement);
+                        localStorage.removeItem();
+                        todoItems--;
+
+                    } else {
+                        swal("Your todo item is safe!");
+                        return;
+                    }
+                });
+        }
+    }; //end of deleteTodoItem function
+
     const enterTodoItem = e => {
         let inputValue = addInput.value;
         if (e.keyCode === 13) {
             if (!inputValue) {
                 swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
-                console.log('invalid entry');
                 return;
             }
 
@@ -73,5 +97,6 @@ window.onload = function () {
     //**************** add event listeners ****************//
     addButton.addEventListener('click', addTodoItem);
     addInput.addEventListener('keyup', enterTodoItem);
+    listHead.addEventListener('click', deleteTodoItem);
 
 };//end of window.onload function
