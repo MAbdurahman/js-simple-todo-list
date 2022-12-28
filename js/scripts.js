@@ -15,7 +15,6 @@ window.onload = function () {
         let inputValue = addInput.value;
         if (!inputValue) {
             swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
-            console.log('invalid entry');
             return;
         }
 
