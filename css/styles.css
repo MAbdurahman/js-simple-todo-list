@@ -29,6 +29,7 @@
 ================================================*/
 
 html {
+    position: relative;
     font-size: 100%;
 }
 body {
@@ -72,6 +73,31 @@ body {
     .wrapper {
         max-width: 1140px;
     }
+}
+
+/* =========================================
+              Preloader
+============================================ */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #262626;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+
+#preloader-gif {
+    width: 33%;
+    align-self: center;
 }
 
 /*=============================================
