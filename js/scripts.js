@@ -1,14 +1,14 @@
-/*=============================================
-          js-simple-todo-list scripts
-================================================*/
-/* =========================================
-            Preloader
-============================================ */
+
+/* ============================================
+            preloader
+===============================================*/
 $(window).on('load', function () {
     // makes sure that whole site is loaded
     $('#preloader-gif, #preloader').fadeOut(3000, function () {});
 });
-
+/*=============================================
+          js-simple-todo-list scripts
+================================================*/
 window.onload = function () {
 
     //**************** variables ****************//
@@ -17,10 +17,9 @@ window.onload = function () {
     const listHead = document.getElementById("list");
 
     let todoItems = 0;
-
     //**************** functions ****************//
     const addTodoItem = e => {
-        let inputValue = addInput.value;
+        let inputValue = addInput.value.trim();
         if (!inputValue) {
             swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
             return;
@@ -76,7 +75,7 @@ window.onload = function () {
     }; //end of deleteTodoItem function
 
     const enterTodoItem = e => {
-        let inputValue = addInput.value;
+        let inputValue = addInput.value.trim();
         if (e.keyCode === 13) {
             if (!inputValue) {
                 swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
