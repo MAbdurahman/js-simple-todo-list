@@ -124,8 +124,22 @@ window.onload = function () {
 
             const template = document.querySelector("#template");
             const clone = document.importNode(template.content, true);
-            clone.querySelector('.item').textContent = inputValue;
+            clone.querySelector('.item').textContent = inputValue.trim();
             clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
+
+            const todoItem = clone.textContent.trim();
+
+            localToDoList.push(todoItem);
+            const toDoList = localStorage.getItem('todoList');
+
+            if (toDoList) {
+                const todoListArr = JSON.parse(toDoList);
+                todoListArr.push(todoItem);
+                localStorage.setItem('todoList', JSON.stringify(todoListArr));
+
+            } else {
+                localStorage.setItem('todoList', JSON.stringify([...todoItem]));
+            }
             listHead.appendChild(clone);
 
             todoItems++;
