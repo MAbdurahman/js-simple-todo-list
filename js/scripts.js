@@ -67,12 +67,12 @@ window.onload = function () {
     };// end of addTodoItem function
 
     function completedTodoItem(e) {
-        /*if (e.target.checked === true) {
+        if (e.target.checked === true) {
             e.target.setAttribute('class', 'completed');
 
         } else {
             e.target.removeAttribute('class');
-        }*/
+        }
         console.log('completedTodoItem clicked!')
     }//end of completedTodoItem function
 

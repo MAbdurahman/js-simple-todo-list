@@ -266,6 +266,12 @@ input[type="checkbox"] {
     background: #111111;
     color: hsl(0, 0%, 99%);
 }
+@media (max-width: 360px) {
+    input[type="checkbox"] {
+        margin-right: 16px;
+    }
+
+}
 
 input[type="checkbox"]:checked {
     background: #111111;
@@ -279,7 +285,11 @@ span.item {
     font-weight: 400;
     text-transform: capitalize;
 }
-
+@media (max-width: 360px) {
+    span.item {
+        font-size: 1.333rem;
+    }
+}
 input.completed~span {
     text-decoration: line-through;
     font-size: 1.5rem;
