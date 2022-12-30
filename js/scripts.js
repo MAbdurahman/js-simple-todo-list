@@ -33,7 +33,7 @@ window.onload = function () {
         const template = document.querySelector("#template");
         const clone = document.importNode(template.content, true);
         clone.querySelector('.item').textContent = inputValue.trim();
-        /*clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);*/
+        clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
 
         const todoItem = clone.textContent.trim();
         /*console.log(clone.textContent.trim());*/
@@ -46,10 +46,8 @@ window.onload = function () {
             todoListArr.push(todoItem);
             localStorage.setItem('todoList', JSON.stringify(todoListArr));
 
-        } else {
-            localStorage.setItem('todoList', JSON.stringify([...todoItem]));
         }
-        /*listHead.appendChild(clone);*/
+        listHead.appendChild(clone);
 
         /*console.log(clone);*/
         /*        localTodoList.push(clone.querySelector('.item'.value));*/
@@ -57,7 +55,7 @@ window.onload = function () {
         /*console.log(todoListArr);*/
 
         todoItems++;
-        displayTodoItems();
+        /*displayTodoItems();*/
 
         setTimeout(() => {
             addInput.value = '';
@@ -66,14 +64,13 @@ window.onload = function () {
 
     };// end of addTodoItem function
 
-    function completedTodoItem(e) {
+    const completedTodoItem = e => {
         if (e.target.checked === true) {
             e.target.setAttribute('class', 'completed');
 
         } else {
             e.target.removeAttribute('class');
         }
-        console.log('completedTodoItem clicked!')
     }//end of completedTodoItem function
 
     const deleteTodoItem = e => {
@@ -90,9 +87,20 @@ window.onload = function () {
                         swal("Your todo item has been deleted!", {
                             icon: "success",
                         });
+                        const todoItem = e.target.parentNode.querySelector('.item').textContent;
+                        const index = localToDoList.indexOf(todoItem.toString());
+                        console.log(index)
+                        const toDoList = localStorage.getItem('todoList');
+                        if (toDoList) {
+                            const todoListArr = JSON.parse(toDoList);
+                            todoListArr.splice(index, 1);
+                            /*console.log(removeItemToDoList);*/
+                            console.log(todoListArr)
+                            localStorage.setItem('todoList', JSON.stringify(todoListArr));
+                        }
                         listHead.removeChild(e.target.parentElement);
                         todoItems--;
-
+/*                        displayTodoItems();*/
                     } else {
                         swal("Your todo item is safe!");
                         return;
@@ -112,7 +120,7 @@ window.onload = function () {
             const template = document.querySelector("#template");
             const clone = document.importNode(template.content, true);
             clone.querySelector('.item').textContent = inputValue.trim();
-            /*clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);*/
+            clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
 
             const todoItem = clone.textContent.trim();
 
@@ -124,13 +132,11 @@ window.onload = function () {
                 todoListArr.push(todoItem);
                 localStorage.setItem('todoList', JSON.stringify(todoListArr));
 
-            } else {
-                localStorage.setItem('todoList', JSON.stringify([...todoItem]));
             }
-            /*listHead.appendChild(clone);*/
+            listHead.appendChild(clone);
 
             todoItems++;
-            displayTodoItems();
+            /*displayTodoItems();*/
 
             setTimeout(() => {
                 addInput.value = '';
@@ -141,22 +147,16 @@ window.onload = function () {
     }; //end of the enterTodoItem function
 
     function displayTodoItems() {
-        let todoItems = '';
 
         for (let i = 0; i < localToDoList.length; i++) {
-            todoItems += `
-                <li class="todo-item">
-                    <label class="custom">
-                        <input class="checkbox" type="checkbox" name="item"/>
-                        <span class="item">${localToDoList[i]}</span>
-                        <span class="checkmark" onclick="alert('checkmark')"></span>
-                    </label>
-                    <i class="fas fa-trash-alt"></i>
-                </li>
-            `;
+            const template = document.querySelector('#template');
+            const clone = document.importNode(template.content, true);
+            clone.querySelector('.item').textContent = localToDoList[i];
+            clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
+            listHead.appendChild(clone);
         }
 
-        listHead.innerHTML = todoItems;
+        return listHead;
 
     }//end of displayTodoItems function
 
