@@ -27,7 +27,6 @@
 /*=============================================
           root, html, and body styles
 ================================================*/
-
 html {
 
     font-size: 100%;
@@ -95,7 +94,6 @@ body {
     z-index: 10000;
 }
 
-
 #preloader-gif {
     width: 50%;
     align-self: center;
@@ -104,7 +102,6 @@ body {
 /*=============================================
           #main styles
 ================================================*/
-
 #main {
     max-width: 640px;
     width: 560px;
@@ -120,7 +117,6 @@ body {
     #main {
         width: calc(100% - 1px);
     }
-
 }
 
 #header {
@@ -130,7 +126,6 @@ body {
     align-items: center;
 
 }
-
 
 #add-container {
     display: flex;
@@ -182,11 +177,6 @@ ul#list {
 /* =============================================
                button
    ============================================= */
-
-/*#add-button {
-    font-size: 16px;
-}*/
-
 .button {
     padding: .5em 1em;
     border: 3px solid #404040;
@@ -218,7 +208,6 @@ ul#list {
     .button {
         font-size: .9rem;
     }
-
 }
 
 .swal-button {
@@ -293,7 +282,6 @@ span.item {
 input.completed~span {
     text-decoration: line-through;
     font-size: 1.5rem;
-
 }
 
 /* remove default checkbox */
@@ -326,7 +314,6 @@ input.completed~span {
     .checkmark {
         top: -5px;
     }
-
 }
 
 .custom:hover .checkmark {

@@ -13,8 +13,6 @@ window.onload = function () {
 
     localToDoList = getInitialTodoList();
 
-    console.log(localToDoList);
-
     //**************** variables ****************//
     const addButton = document.getElementById("add-button");
     const addInput = document.getElementById("add-input");
@@ -36,11 +34,10 @@ window.onload = function () {
         clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
 
         const todoItem = clone.textContent.trim();
-        /*console.log(clone.textContent.trim());*/
-        /*localToDoList.push(clone.textContent.trim());*/
+
         localToDoList.push(todoItem);
         const toDoList = localStorage.getItem('todoList');
-        /*const todoList = localStorage.getItem('todoList');*/
+
         if (toDoList) {
             const todoListArr = JSON.parse(toDoList);
             todoListArr.push(todoItem);
@@ -48,14 +45,6 @@ window.onload = function () {
 
         }
         listHead.appendChild(clone);
-
-        /*console.log(clone);*/
-        /*        localTodoList.push(clone.querySelector('.item'.value));*/
-        /*console.log(localToDoList);*/
-        /*console.log(todoListArr);*/
-
-        todoItems++;
-        /*displayTodoItems();*/
 
         setTimeout(() => {
             addInput.value = '';
@@ -89,18 +78,15 @@ window.onload = function () {
                         });
                         const todoItem = e.target.parentNode.querySelector('.item').textContent;
                         const index = localToDoList.indexOf(todoItem.toString());
-                        console.log(index)
                         const toDoList = localStorage.getItem('todoList');
                         if (toDoList) {
                             const todoListArr = JSON.parse(toDoList);
                             todoListArr.splice(index, 1);
-                            /*console.log(removeItemToDoList);*/
-                            console.log(todoListArr)
                             localStorage.setItem('todoList', JSON.stringify(todoListArr));
                         }
+
                         listHead.removeChild(e.target.parentElement);
-                        todoItems--;
-/*                        displayTodoItems();*/
+
                     } else {
                         swal("Your todo item is safe!");
                         return;
@@ -135,15 +121,11 @@ window.onload = function () {
             }
             listHead.appendChild(clone);
 
-            todoItems++;
-            /*displayTodoItems();*/
-
             setTimeout(() => {
                 addInput.value = '';
             }, 250);
             addInput.focus();
         }
-
     }; //end of the enterTodoItem function
 
     function displayTodoItems() {
@@ -160,7 +142,6 @@ window.onload = function () {
 
     }//end of displayTodoItems function
 
-
     function getInitialTodoList() {
         //!**************** get the todoList ****************!//
         const localTodoList = localStorage.getItem('todoList');
@@ -173,12 +154,6 @@ window.onload = function () {
         localStorage.setItem('todoList', []);
         return [];
     }//end of getInitialTodoList function
-
-    function getNumberTodoItems() {
-        return todoItems;
-    }//end of getNumberTodoItems function
-
-
 
     //**************** add event listeners ****************//
     addButton.addEventListener('click', addTodoItem);
