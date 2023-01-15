@@ -181,9 +181,7 @@ ul#list {
     padding: .5em 1em;
     border: 3px solid #404040;
     border-radius: 5px;
-    color: #262626;
     color: #d9d9d9;
-    background-color: #d9d9d9;
     background-color: #111111;
     font-size: 1rem;
     font-weight: bold;
@@ -358,5 +356,15 @@ input.completed~span {
 }
 
 .fas:hover {
+
+}
+
+.fas.fa-trash-alt:hover {
     color: hsla(0, 87%, 49%, 1.0)
+}
+
+.fas.fa-edit:hover {
+    color: rgb(243, 173, 31);
+    color: rgb(37, 121, 176);
+    color: rgb(67, 105, 225);
 }
