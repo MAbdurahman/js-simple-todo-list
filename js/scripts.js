@@ -30,7 +30,7 @@ window.onload = function () {
         let inputValue = addInput.value.trim();
         const id = new Date().getTime().toString();
 
-        if (inputValue  && !isEditing) {
+        if (inputValue && !isEditing) {
             let attr = document.createAttribute("data-id");
             attr.value = id;
 
@@ -40,7 +40,7 @@ window.onload = function () {
             clone.querySelector('.item').textContent = inputValue.trim();
             clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
 
-            const todoItem = clone.textContent.trim();
+            // const todoItem = clone.textContent.trim();
 
 
             listHead.appendChild(clone);
@@ -91,7 +91,6 @@ window.onload = function () {
         // }
 
 
-
     };// end of addTodoItem function
 
     const completedTodoItem = e => {
@@ -101,7 +100,7 @@ window.onload = function () {
         } else {
             e.target.removeAttribute('class');
         }
-    }//end of completedTodoItem function
+    };//end of completedTodoItem function
 
     const deleteTodoItem = e => {
         if (e.target.classList.contains('fa-trash-alt')) {
@@ -138,7 +137,7 @@ window.onload = function () {
 
                         listHead.removeChild(todoItem);
                         setToDefaultSettings();
-                        removeFromLocalStorage(id, todoItemContent);
+                        removeFromLocalStorage(id);
 
                     } else {
                         swal("Your todo item is safe!");
@@ -159,6 +158,7 @@ window.onload = function () {
             addButton.innerText = 'Editing';
             const editItemText = e.target.parentNode.parentNode.querySelector('.item').textContent;
             addInput.value = editItemText;
+            addInput.focus();
             editElement = e.target.parentNode.parentNode.querySelector('.item');
 
             // swal("Your todo item was successfully edited!", {
@@ -168,54 +168,25 @@ window.onload = function () {
 
 
         }
-            /*const element = e.target.parentElement.parentElement;
-            console.log(element);
-            isEditing = true;
-            console.log(isEditing);
-            addButton.innerText = 'Editing';
-            const editItemText = e.target.parentNode.parentNode.querySelector('.item').textContent;
-            console.log(editItemText);
-            addInput.value = editItemText;
+        /*const element = e.target.parentElement.parentElement;
+        console.log(element);
+        isEditing = true;
+        console.log(isEditing);
+        addButton.innerText = 'Editing';
+        const editItemText = e.target.parentNode.parentNode.querySelector('.item').textContent;
+        console.log(editItemText);
+        addInput.value = editItemText;
 
-            const editItemIndex = localToDoList.indexOf(editItemText);
-            itemIndex = editItemIndex;
-            console.log(editItemIndex);
-            addInput.focus();
-            isEditing = true;*/
-            /*if (addInput.focus()) {
-                itemIndex = localToDoList.indexOf(editItemText);
-                localToDoList.splice(editItemIndex, 1);
-                listHead.removeChild(e.parentElement.parentElement);
-                   }
-
-                /*let inputValue = addInput.value.trim();
-
-                if (!inputValue) {
-                    swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
-                    return;
-                }
-                const template = document.querySelector('#template');
-                const clone = document.importNode(template.content, true);
-                clone.querySelector('.item').textContent = inputValue.trim();
-                clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
-
-                const todoItemText = clone.textContent.trim();
-                localToDoList.splice(editItemIndex, 0, todoItemText);
-                console.log(localToDoList);
-                const toDoList = localStorage.getItem('todoList');
-                if (toDoList) {
-                    const todoListArr = JSON.parse(toDoList);
-                    todoListArr.splice(editItemIndex, 0, todoItemText);
-                    localStorage.setItem('todoListArr', JSON.stringify(todoListArr));
-
-                }
-                listHead.appendChild(clone);
-
-                setTimeout(() => {
-                    addInput.value = '';
-                }, 250);
-                addInput.focus();*/
-
+        const editItemIndex = localToDoList.indexOf(editItemText);
+        itemIndex = editItemIndex;
+        console.log(editItemIndex);
+        addInput.focus();
+        isEditing = true;*/
+        /*if (addInput.focus()) {
+            itemIndex = localToDoList.indexOf(editItemText);
+            localToDoList.splice(editItemIndex, 1);
+            listHead.removeChild(e.parentElement.parentElement);
+               }
 
             /*let inputValue = addInput.value.trim();
 
@@ -223,7 +194,6 @@ window.onload = function () {
                 swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
                 return;
             }
-
             const template = document.querySelector('#template');
             const clone = document.importNode(template.content, true);
             clone.querySelector('.item').textContent = inputValue.trim();
@@ -231,7 +201,7 @@ window.onload = function () {
 
             const todoItemText = clone.textContent.trim();
             localToDoList.splice(editItemIndex, 0, todoItemText);
-
+            console.log(localToDoList);
             const toDoList = localStorage.getItem('todoList');
             if (toDoList) {
                 const todoListArr = JSON.parse(toDoList);
@@ -246,6 +216,35 @@ window.onload = function () {
             }, 250);
             addInput.focus();*/
 
+
+        /*let inputValue = addInput.value.trim();
+
+        if (!inputValue) {
+            swal('Invalid Entry', 'Enter A Valid Entry!', 'error');
+            return;
+        }
+
+        const template = document.querySelector('#template');
+        const clone = document.importNode(template.content, true);
+        clone.querySelector('.item').textContent = inputValue.trim();
+        clone.querySelector('.checkbox').addEventListener('click', completedTodoItem);
+
+        const todoItemText = clone.textContent.trim();
+        localToDoList.splice(editItemIndex, 0, todoItemText);
+
+        const toDoList = localStorage.getItem('todoList');
+        if (toDoList) {
+            const todoListArr = JSON.parse(toDoList);
+            todoListArr.splice(editItemIndex, 0, todoItemText);
+            localStorage.setItem('todoListArr', JSON.stringify(todoListArr));
+
+        }
+        listHead.appendChild(clone);
+
+        setTimeout(() => {
+            addInput.value = '';
+        }, 250);
+        addInput.focus();*/
 
 
     }; //end of editToItem function
@@ -297,21 +296,38 @@ window.onload = function () {
 
     }//end of displayTodoItems function
 
-    function addToLocalStorage(id, value) {
+    function addToLocalStorage(id, todoItem) {
 
-        console.log(`addToLocalStorage -> ${id} - ${value}`);
+        console.log(`addToLocalStorage -> ${id} - ${todoItem}`);
+        const todo = {
+            id,
+            todoItem
+        };
+        let localToDoListArr = getLocalStorage();
+        localToDoListArr.push(todo);
+        localStorage.setItem('toDoList', JSON.stringify(localToDoListArr));
 
     };//end of addToLocalStorage function
 
-    function removeFromLocalStorage(id, value) {
+    function removeFromLocalStorage(id) {
 
-        console.log(`removeFromLocalStorage -> ${id} - ${value}`);
+        console.log(`removeFromLocalStorage -> ${id}`);
+
+        let localToDoListArr = getLocalStorage();
+        localToDoListArr = localToDoListArr.filter(function(todo) {
+            if (todo !== id) {
+                return todo;
+            }
+        });
+
+        localStorage.setItem('toDoList', JSON.stringify(localToDoListArr));
 
     };//end of removeFromLocalStorage function
 
-    function updateEditToLocalStorage(id, value) {
-        console.log(`updateEditToLocalStorage -> ${id} - ${value}`);
-    }
+    function updateEditToLocalStorage(id, todoItem) {
+        console.log(`updateEditToLocalStorage -> ${id} - ${todoItem}`);
+    };//end of updateEditToLocalStorage function
+
     function getInitialTodoList() {
         //!**************** get the todoList ****************!//
         const localTodoList = localStorage.getItem('toDoList');
@@ -324,6 +340,13 @@ window.onload = function () {
         localStorage.setItem('toDoList', []);
         return [];
     }//end of getInitialTodoList function
+
+    function getLocalStorage() {
+        return localStorage.getItem("toDoList")
+            ? JSON.parse(localStorage.getItem("toDoList"))
+            : [];
+
+    };//end of getLocalStorage function
 
     function setToDefaultSettings() {
         addButton.innerText = 'Add Item';
