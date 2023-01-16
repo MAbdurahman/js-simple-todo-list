@@ -19,6 +19,7 @@ window.onload = function () {
   let isEditing = false;
   let editID = "";
   let editItem;
+  let editItemText;
 
   //**************** functions ****************//
   /**
@@ -44,13 +45,9 @@ window.onload = function () {
       listHead.appendChild(clone);
 
       addToLocalStorage(id, inputValue);
-      console.log(localStorage);
       setToDefaultSettings();
     } else if (inputValue && isEditing) {
-      console.log("editing");
-
       editItem.innerHTML = inputValue;
-
       updateEditToLocalStorage(editID, inputValue);
       setToDefaultSettings();
 
@@ -90,7 +87,6 @@ window.onload = function () {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          console.log("deleteTodoItem");
           const todoItem = e.target.parentElement.parentElement;
           const id = todoItem.dataset.id;
 
@@ -118,23 +114,20 @@ window.onload = function () {
    */
   const editTodoItem = (e) => {
     if (e.target.classList.contains("fa-edit")) {
-      console.log("editTodoItem");
-
       const todoItem = e.target.parentElement.parentElement;
       editID = todoItem.dataset.id;
 
       isEditing = true;
       addButton.innerText = "Editing";
       editItem = e.target.parentNode.parentNode.querySelector(".item");
-      /*const editItemText = e.target.parentNode.parentNode.querySelector('.item').textContent;*/
-      const editItemText = editItem.textContent;
+      editItemText = editItem.textContent;
       addInput.value = editItemText;
       addInput.focus();
     }
   }; //end of editToItem function
 
   /**
-   * enterTodoItem - adds an item to the list with pressing enter key
+   * enterTodoItem function - adds an item to the list with pressing enter key
    * @param e - the keydown event
    */
   const enterTodoItem = (e) => {
@@ -158,14 +151,11 @@ window.onload = function () {
         listHead.appendChild(clone);
 
         addToLocalStorage(id, inputValue);
-        console.log(localStorage);
         setToDefaultSettings();
       } else if (inputValue && isEditing) {
-        console.log("editing");
+        editItem.innerHTML = inputValue.trim();
 
-        editItem.innerHTML = inputValue;
-
-        updateEditToLocalStorage(editID, inputValue);
+        updateEditToLocalStorage(editID, inputValue.trim());
         setToDefaultSettings();
 
         swal("Your todo item was successfully edited!", {
@@ -179,6 +169,11 @@ window.onload = function () {
     }
   }; //end of the enterTodoItem function
 
+  /**
+   * createListItem function - creates an list item for the list
+   * @param id
+   * @param todoItem
+   */
   function createListItem(id, todoItem) {
     let attr = document.createAttribute("data-id");
     attr.value = id;
@@ -194,6 +189,9 @@ window.onload = function () {
     listHead.appendChild(clone);
   } //end of the createListItem function
 
+  /**
+   * displayTodoItems function - display the items in the list from localStorage
+   */
   function displayTodoItems() {
     localToDoList = getLocalStorage();
     if (localToDoList.length > 0) {
@@ -203,8 +201,12 @@ window.onload = function () {
     }
   } //end of displayTodoItems function
 
+  /**
+   * addToLocalStorage function - creates an item and adds it to the localStorage list
+   * @param id - item id
+   * @param todoItem - item text content
+   */
   function addToLocalStorage(id, todoItem) {
-    console.log(`addToLocalStorage -> ${id} - ${todoItem}`);
     const todo = {
       id,
       todoItem,
@@ -214,9 +216,11 @@ window.onload = function () {
     localStorage.setItem("toDoList", JSON.stringify(localToDoListArr));
   } //end of addToLocalStorage function
 
+  /**
+   * removeFromLocalStorage function - removes an item from the localStorage list
+   * @param id - the item id
+   */
   function removeFromLocalStorage(id) {
-    console.log(`removeFromLocalStorage -> ${id}`);
-
     let localToDoListArr = getLocalStorage();
     localToDoListArr = localToDoListArr.filter(function (todo) {
       if (todo !== id) {
@@ -227,9 +231,12 @@ window.onload = function () {
     localStorage.setItem("toDoList", JSON.stringify(localToDoListArr));
   } //end of removeFromLocalStorage function
 
+  /**
+   * updateEditToLocalStorage function - updates the editing of an item and adds to the localStorage
+   * @param id - the item id
+   * @param todoItem - the item text content
+   */
   function updateEditToLocalStorage(id, todoItem) {
-    console.log(`updateEditToLocalStorage -> ${id} - ${todoItem}`);
-
     let localToDoListArr = getLocalStorage();
     localToDoListArr = localToDoListArr.map(function (todo) {
       if (todo.id === id) {
@@ -241,6 +248,10 @@ window.onload = function () {
     localStorage.setItem("toDoList", JSON.stringify(localToDoListArr));
   } //end of updateEditToLocalStorage function
 
+  /**
+   * getInitialTodoList function - gets the toDoList from localStorage
+   * @returns {*[]|any}
+   */
   function getInitialTodoList() {
     //!**************** get the todoList ****************!//
     const localTodoList = localStorage.getItem("toDoList");
@@ -254,12 +265,19 @@ window.onload = function () {
     return [];
   } //end of getInitialTodoList function
 
+  /**
+   * getLocalStorage function - gets the toDoList from localStorage
+   * @returns {any|*[]}
+   */
   function getLocalStorage() {
     return localStorage.getItem("toDoList")
       ? JSON.parse(localStorage.getItem("toDoList"))
       : [];
   } //end of getLocalStorage function
 
+  /**
+   * setToDefaultSettings function - resets the diffent variables to initial values
+   */
   function setToDefaultSettings() {
     addButton.innerText = "Add Item";
     isEditing = false;
