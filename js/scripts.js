@@ -21,6 +21,10 @@ window.onload = function () {
   let editItem;
 
   //**************** functions ****************//
+  /**
+   * addTodoItem function - add an item to the list
+   * @param e - the click event
+   */
   const addTodoItem = (e) => {
     let inputValue = addInput.value.trim();
     const id = new Date().getTime().toString();
@@ -60,6 +64,10 @@ window.onload = function () {
     }
   }; // end of addTodoItem function
 
+  /**
+   * completedTodoItem function - adds the class completed to todoItem
+   * @param e - the click event
+   */
   const completedTodoItem = (e) => {
     if (e.target.checked === true) {
       e.target.setAttribute("class", "completed");
@@ -68,6 +76,10 @@ window.onload = function () {
     }
   }; //end of completedTodoItem function
 
+  /**
+   * deleteTodoItem function - deletes an item from the list
+   * @param e - the click event
+   */
   const deleteTodoItem = (e) => {
     if (e.target.classList.contains("fa-trash-alt")) {
       swal({
@@ -100,6 +112,10 @@ window.onload = function () {
     }
   }; //end of deleteTodoItem function
 
+  /**
+   * editTodoItem function - edits an item in the list
+   * @param e
+   */
   const editTodoItem = (e) => {
     if (e.target.classList.contains("fa-edit")) {
       console.log("editTodoItem");
@@ -117,37 +133,49 @@ window.onload = function () {
     }
   }; //end of editToItem function
 
+  /**
+   * enterTodoItem - adds an item to the list with pressing enter key
+   * @param e - the keydown event
+   */
   const enterTodoItem = (e) => {
-    let inputValue = addInput.value.trim();
+    /*let inputValue = addInput.value.trim();*/
     if (e.keyCode === 13) {
-      if (!inputValue) {
+      let inputValue = addInput.value.trim();
+      const id = new Date().getTime().toString();
+
+      if (inputValue && !isEditing) {
+        let attr = document.createAttribute("data-id");
+        attr.value = id;
+
+        const template = document.querySelector("#template");
+        const clone = document.importNode(template.content, true);
+        clone.querySelector(".todo-item").setAttributeNode(attr);
+        clone.querySelector(".item").textContent = inputValue.trim();
+        clone
+          .querySelector(".checkbox")
+          .addEventListener("click", completedTodoItem);
+
+        listHead.appendChild(clone);
+
+        addToLocalStorage(id, inputValue);
+        console.log(localStorage);
+        setToDefaultSettings();
+      } else if (inputValue && isEditing) {
+        console.log("editing");
+
+        editItem.innerHTML = inputValue;
+
+        updateEditToLocalStorage(editID, inputValue);
+        setToDefaultSettings();
+
+        swal("Your todo item was successfully edited!", {
+          icon: "success",
+        });
+        return;
+      } else {
         swal("Invalid Entry", "Enter A Valid Entry!", "error");
         return;
       }
-
-      const template = document.querySelector("#template");
-      const clone = document.importNode(template.content, true);
-      clone.querySelector(".item").textContent = inputValue.trim();
-      clone
-        .querySelector(".checkbox")
-        .addEventListener("click", completedTodoItem);
-
-      const todoItem = clone.textContent.trim();
-
-      localToDoList.push(todoItem);
-      const toDoList = localStorage.getItem("todoList");
-
-      if (toDoList) {
-        const todoListArr = JSON.parse(toDoList);
-        todoListArr.push(todoItem);
-        localStorage.setItem("todoList", JSON.stringify(todoListArr));
-      }
-      listHead.appendChild(clone);
-
-      setTimeout(() => {
-        addInput.value = "";
-      }, 250);
-      addInput.focus();
     }
   }; //end of the enterTodoItem function
 
