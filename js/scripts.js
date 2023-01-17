@@ -15,11 +15,22 @@ window.onload = function () {
   const addButton = document.getElementById("add-button");
   const addInput = document.getElementById("add-input");
   const listHead = document.getElementById("list");
+  const counter = document.getElementById("counter");
+  const maxLength = addInput.getAttribute("maxlength");
+  const windowScreen = window.screen.availWidth;
 
   let isEditing = false;
   let editID = "";
   let editItem;
   let editItemText;
+
+  if (windowScreen <= 320) {
+    addInput.setAttribute("maxlength", 25);
+    counter.innerText = 25;
+  } else {
+    addInput.setAttribute("maxlength", 31);
+    counter.innerText = 31;
+  }
 
   //**************** functions ****************//
   /**
@@ -122,6 +133,7 @@ window.onload = function () {
       editItem = e.target.parentNode.parentNode.querySelector(".item");
       editItemText = editItem.textContent;
       addInput.value = editItemText;
+      getCharacterCount();
       addInput.focus();
     }
   }; //end of editToItem function
@@ -285,16 +297,29 @@ window.onload = function () {
 
     setTimeout(() => {
       addInput.value = "";
+      getCharacterCount();
     }, 250);
     addInput.focus();
-
-    console.log("setToDefaultSettings");
   } //end of setToDefaultSettings function
+
+  /**
+   * getCharacterCount function - get character count of input[type=text] and
+   * add the value to counter innerText.
+   */
+  function getCharacterCount() {
+    let characterCount = maxLength - addInput.value.length;
+    if (characterCount < 10) {
+      counter.innerText = `0${characterCount}`;
+    } else {
+      counter.innerText = `${characterCount}`;
+    }
+  } //end of the getCharacterCount function
 
   //**************** add event listeners ****************//
   window.addEventListener("DOMContentLoaded", getInitialTodoList);
   addButton.addEventListener("click", addTodoItem);
   addInput.addEventListener("keydown", enterTodoItem);
+  addInput.addEventListener("keyup", getCharacterCount);
   listHead.addEventListener("click", deleteTodoItem);
   listHead.addEventListener("click", editTodoItem);
 
