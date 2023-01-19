@@ -235,7 +235,7 @@ window.onload = function () {
   function removeFromLocalStorage (id) {
     let localToDoListArr = getLocalStorage();
     localToDoListArr = localToDoListArr.filter(function (todo) {
-      if (todo !== id) {
+      if (todo.id !== id) {
         return todo;
       }
     });
