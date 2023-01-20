@@ -316,6 +316,7 @@ span.item {
 }
 input.completed~span {
     text-decoration: line-through;
+/*     background: #626262; */
     font-size: 1.5rem;
 }
 
