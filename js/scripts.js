@@ -129,7 +129,7 @@ window.onload = function () {
       editID = todoItem.dataset.id;
       
       isEditing = true;
-      addButton.innerText = 'Editing';
+      addButton.innerText = 'Edit Item';
       editItem = e.target.parentNode.parentNode.querySelector('.item');
       editItemText = editItem.textContent;
       addInput.value = editItemText;
