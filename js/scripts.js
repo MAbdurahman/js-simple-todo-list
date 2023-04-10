@@ -57,26 +57,10 @@ window.onload = function () {
     let isChecked = false;
     
     if (inputValue && !isEditing) {
-      /* let attr = document.createAttribute('data-id');
-      attr.value = id;
-
-      const template = document.querySelector('#template');
-      const clone = document.importNode(template.content, true);
-      clone.querySelector('.todo-item').setAttributeNode(attr);
-      clone.querySelector('.item').textContent = inputValue.trim();
-      clone
-        .querySelector('.checkbox')
-        .addEventListener('click', completedTodoItem);
-      isChecked = clone
-        .querySelector('.checkbox')
-        .classList.contains('completed');
-      clone.querySelector('.checkbox').checked = isChecked;
-
-      listHead.appendChild(clone); */
       createListItem(id, inputValue, isChecked);
-      
       addToLocalStorage(id, inputValue, isChecked);
       setToDefaultSettings();
+      
     } else if (inputValue && isEditing) {
       editItem.innerHTML = inputValue;
       updateEditToLocalStorage(editID, inputValue, editItemIsChecked);
@@ -235,16 +219,6 @@ window.onload = function () {
         attr.value = id;
         isChecked = hasClass('input.checkbox', 'completed');
         
-        /* const template = document.querySelector('#template');
-        const clone = document.importNode(template.content, true);
-        clone.querySelector('.todo-item').setAttributeNode(attr);
-        clone.querySelector('.item').textContent = inputValue.trim();
-        clone.querySelector('.checkbox').checked = isChecked;
-        clone
-          .querySelector('.checkbox')
-          .addEventListener('click', completedTodoItem);
-
-        listHead.appendChild(clone); */
         createListItem(id, inputValue, isChecked);
         addToLocalStorage(id, inputValue, isChecked);
         setToDefaultSettings();
