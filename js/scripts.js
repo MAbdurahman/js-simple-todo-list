@@ -6,7 +6,7 @@ $(window).on('load', function () {
   $('#preloader-gif, #preloader').fadeOut(3000, function () {});
 });
 /*=============================================
-          js-simple-todo-list scripts
+         js-simple-todo-list scripts
 ================================================*/
 window.onload = function () {
   localToDoList = getInitialTodoList();
@@ -23,28 +23,31 @@ window.onload = function () {
   let editID = '';
   let editItem;
   let editItemText;
+  let editItemIsChecked = false;
   
-  if (windowScreen <= 320) {
+  if (windowScreen <= 360) {
     addInput.setAttribute('maxlength', 25);
     counter.innerText = 25;
   } else {
-    addInput.setAttribute('maxlength', 31);
-    counter.innerText = 31;
+    addInput.setAttribute('maxlength', 28);
+    counter.innerText = 28;
   }
   
   //**************** functions ****************//
   /**
-   * addTodoItem function - add an item to the list
+   * @description - adds an item to the list
    * @param e - the click event
    */
-  const addTodoItem = (e) => {
+  const addTodoItem = e => {
     let inputValue = addInput.value.trim();
     const id = new Date().getTime().toString();
     
+    let isChecked = false;
+    
     if (inputValue && !isEditing) {
-      let attr = document.createAttribute('data-id');
+      /* let attr = document.createAttribute('data-id');
       attr.value = id;
-      
+
       const template = document.querySelector('#template');
       const clone = document.importNode(template.content, true);
       clone.querySelector('.todo-item').setAttributeNode(attr);
@@ -52,18 +55,24 @@ window.onload = function () {
       clone
         .querySelector('.checkbox')
         .addEventListener('click', completedTodoItem);
+      isChecked = clone
+        .querySelector('.checkbox')
+        .classList.contains('completed');
+      clone.querySelector('.checkbox').checked = isChecked;
+
+      listHead.appendChild(clone); */
+      createListItem(id, inputValue, isChecked);
       
-      listHead.appendChild(clone);
-      
-      addToLocalStorage(id, inputValue);
+      addToLocalStorage(id, inputValue, isChecked);
       setToDefaultSettings();
     } else if (inputValue && isEditing) {
       editItem.innerHTML = inputValue;
-      updateEditToLocalStorage(editID, inputValue);
+      updateEditToLocalStorage(editID, inputValue, editItemIsChecked);
+      updateIsCheckedToLocalStorage(editID, editItemIsChecked);
       setToDefaultSettings();
       
       swal('Your todo item was successfully edited!', {
-        icon: 'success'
+        icon: 'success',
       });
       return;
     } else {
@@ -73,43 +82,99 @@ window.onload = function () {
   }; // end of addTodoItem function
   
   /**
-   * completedTodoItem function - adds the class completed to todoItem
+   * @description - adds the class completed to the todo and updates the
+   * localStorage
    * @param e - the click event
    */
-  const completedTodoItem = (e) => {
+  const completedTodoItem = e => {
+    const id = e.target.parentElement.parentElement.dataset.id;
     if (e.target.checked === true) {
       e.target.setAttribute('class', 'completed');
+      updateIsCheckedToLocalStorage(id, true);
     } else {
-      e.target.removeAttribute('class');
+      e.target.removeAttribute('class', 'completed');
+      updateIsCheckedToLocalStorage(id, false);
     }
   }; //end of completedTodoItem function
   
   /**
-   * deleteTodoItem function - deletes an item from the list
+   * @description -
+   * @param {*} id
+   * @param {*} todoItem
+   * @param {*} isChecked
+   */
+  function createDisplayListItem(id, todoItem, isChecked) {
+    let attr = document.createAttribute('data-id');
+    attr.value = id;
+    
+    const template = document.querySelector('#template');
+    const clone = document.importNode(template.content, true);
+    clone.querySelector('.todo-item').setAttributeNode(attr);
+    clone.querySelector('.item').textContent = todoItem;
+    clone
+      .querySelector('.checkbox')
+      .addEventListener('click', completedTodoItem);
+    isChecked
+      ? clone.querySelector('.checkbox').classList.add('completed')
+      : clone.querySelector('.checkbox').classList.remove('completed');
+    clone.querySelector('.checkbox').checked = isChecked;
+    
+    list.appendChild(clone);
+  } // end of createDisplayListItem function
+  
+  /**
+   * @description - creates a todo item and add it to the list
+   * @param id
+   * @param todoItem
+   * @param isChecked
+   */
+  function createListItem(id, todoItem, isChecked) {
+    let attr = document.createAttribute('data-id');
+    attr.value = id;
+    
+    const template = document.querySelector('#template');
+    const clone = document.importNode(template.content, true);
+    clone.querySelector('.todo-item').setAttributeNode(attr);
+    clone.querySelector('.item').textContent = todoItem;
+    clone
+      .querySelector('.checkbox')
+      .addEventListener('click', completedTodoItem);
+    isChecked = clone
+      .querySelector('.checkbox')
+      .classList.contains('completed');
+    clone.querySelector('.checkbox').checked = isChecked;
+    
+    listHead.appendChild(clone);
+  } //end of the createListItem function
+  
+  /**
+   * @description - deletes an item from the list and updates the localStorage object
    * @param e - the click event
    */
-  const deleteTodoItem = (e) => {
+  const deleteTodoItem = e => {
     if (e.target.classList.contains('fa-trash-alt')) {
       swal({
         title: 'Are you sure?',
         text: 'Once deleted, impossible to recover!',
         icon: 'warning',
         buttons: true,
-        dangerMode: true
-      }).then((willDelete) => {
+        dangerMode: true,
+      }).then(willDelete => {
         if (willDelete) {
-          const todoItem = e.target.parentElement.parentElement;
-          const id = todoItem.dataset.id;
+          const todo = e.target.parentElement.parentElement;
+          const id = todo.dataset.id;
           
           const todoItemContent =
-            e.target.parentNode.parentNode.querySelector('.item').textContent;
+            e.target.parentNode.parentNode.querySelector(
+              '.item'
+            ).textContent;
           
-          listHead.removeChild(todoItem);
+          listHead.removeChild(todo);
           setToDefaultSettings();
           removeFromLocalStorage(id);
           
           swal('Your todo item has been deleted!', {
-            icon: 'success'
+            icon: 'success',
           });
         } else {
           swal('Your todo item is safe!');
@@ -120,13 +185,17 @@ window.onload = function () {
   }; //end of deleteTodoItem function
   
   /**
-   * editTodoItem function - edits an item in the list
+   * @description - edits an item in the list
    * @param e
    */
-  const editTodoItem = (e) => {
+  const editTodoItem = e => {
     if (e.target.classList.contains('fa-edit')) {
       const todoItem = e.target.parentElement.parentElement;
       editID = todoItem.dataset.id;
+      let elem =
+        e.target.parentElement.parentElement.childNodes[1].childNodes[0]
+          .nextSibling;
+      editItemIsChecked = hasClass(elem, 'completed');
       
       isEditing = true;
       addButton.innerText = 'Edit Item';
@@ -139,39 +208,48 @@ window.onload = function () {
   }; //end of editToItem function
   
   /**
-   * enterTodoItem function - adds an item to the list with pressing enter key
+   * @description - adds an item to the list with pressing enter key
    * @param e - the keydown event
    */
-  const enterTodoItem = (e) => {
-    /*let inputValue = addInput.value.trim();*/
+  const enterTodoItem = e => {
+    
     if (e.keyCode === 13) {
       let inputValue = addInput.value.trim();
       const id = new Date().getTime().toString();
+      let isChecked = false;
       
       if (inputValue && !isEditing) {
         let attr = document.createAttribute('data-id');
         attr.value = id;
+        isChecked = hasClass('input.checkbox', 'completed');
         
-        const template = document.querySelector('#template');
+        /* const template = document.querySelector('#template');
         const clone = document.importNode(template.content, true);
         clone.querySelector('.todo-item').setAttributeNode(attr);
         clone.querySelector('.item').textContent = inputValue.trim();
+        clone.querySelector('.checkbox').checked = isChecked;
         clone
           .querySelector('.checkbox')
           .addEventListener('click', completedTodoItem);
-        
-        listHead.appendChild(clone);
-        
-        addToLocalStorage(id, inputValue);
+
+        listHead.appendChild(clone); */
+        createListItem(id, inputValue, isChecked);
+        addToLocalStorage(id, inputValue, isChecked);
         setToDefaultSettings();
+        
       } else if (inputValue && isEditing) {
         editItem.innerHTML = inputValue.trim();
         
-        updateEditToLocalStorage(editID, inputValue.trim());
+        updateEditToLocalStorage(
+          editID,
+          inputValue.trim(),
+          editItemIsChecked
+        );
+        updateIsCheckedToLocalStorage(editID, editItemIsChecked);
         setToDefaultSettings();
         
         swal('Your todo item was successfully edited!', {
-          icon: 'success'
+          icon: 'success',
         });
         return;
       } else {
@@ -182,46 +260,38 @@ window.onload = function () {
   }; //end of the enterTodoItem function
   
   /**
-   * createListItem function - creates an list item for the list
-   * @param id
-   * @param todoItem
+   * @description - checks whether an element has a particular class
+   * @param {*} elem
+   * @param {*} namedClass
+   * @returns - true if the element has a particular class; otherwise false.
    */
-  function createListItem (id, todoItem) {
-    let attr = document.createAttribute('data-id');
-    attr.value = id;
-    
-    const template = document.querySelector('#template');
-    const clone = document.importNode(template.content, true);
-    clone.querySelector('.todo-item').setAttributeNode(attr);
-    clone.querySelector('.item').textContent = todoItem;
-    clone
-      .querySelector('.checkbox')
-      .addEventListener('click', completedTodoItem);
-    
-    listHead.appendChild(clone);
-  } //end of the createListItem function
+  function hasClass(elem, namedClass) {
+    return ('' + elem.className + '').indexOf('' + namedClass + '') > -1;
+  } //end of hasClass function
   
   /**
-   * displayTodoItems function - display the items in the list from localStorage
+   * @description - displays the items in the array list from localStorage
    */
-  function displayTodoItems () {
+  function displayTodoItems() {
     localToDoList = getLocalStorage();
     if (localToDoList.length > 0) {
       localToDoList.forEach(function (todo) {
-        createListItem(todo.id, todo.todoItem);
+        createDisplayListItem(todo.id, todo.todoItem, todo.isChecked);
       });
     }
   } //end of displayTodoItems function
   
   /**
-   * addToLocalStorage function - creates an item and adds it to the localStorage list
+   * @description - creates an todo and adds it to the localStorage array
    * @param id - item id
    * @param todoItem - item text content
+   * @param isChecked - item is checked or not
    */
-  function addToLocalStorage (id, todoItem) {
+  function addToLocalStorage(id, todoItem, isChecked) {
     const todo = {
       id,
-      todoItem
+      todoItem,
+      isChecked,
     };
     let localToDoListArr = getLocalStorage();
     localToDoListArr.push(todo);
@@ -229,10 +299,10 @@ window.onload = function () {
   } //end of addToLocalStorage function
   
   /**
-   * removeFromLocalStorage function - removes an item from the localStorage list
+   * @description - removes an item from the localStorage array
    * @param id - the item id
    */
-  function removeFromLocalStorage (id) {
+  function removeFromLocalStorage(id) {
     let localToDoListArr = getLocalStorage();
     localToDoListArr = localToDoListArr.filter(function (todo) {
       if (todo.id !== id) {
@@ -244,15 +314,33 @@ window.onload = function () {
   } //end of removeFromLocalStorage function
   
   /**
-   * updateEditToLocalStorage function - updates the editing of an item and adds to the localStorage
+   * @description - updates isChecked in the localStorage
+   * @param {*} id
+   * @param {*} isChecked
+   */
+  function updateIsCheckedToLocalStorage(id, isChecked) {
+    let localToDoListArr = getLocalStorage();
+    localToDoListArr = localToDoListArr.map(function (todo) {
+      if (todo.id === id) {
+        todo.isChecked = isChecked;
+      }
+      return todo;
+    });
+    localStorage.setItem('toDoList', JSON.stringify(localToDoListArr));
+  } //end of updateIsCheckedToLocalStorage function
+  
+  /**
+   * @description - updates the editing of an item and adds to the localStorage
    * @param id - the item id
    * @param todoItem - the item text content
+   * @param isChecked - the boolean value indicating whether the item is checked or not
    */
-  function updateEditToLocalStorage (id, todoItem) {
+  function updateEditToLocalStorage(id, todoItem, isChecked) {
     let localToDoListArr = getLocalStorage();
     localToDoListArr = localToDoListArr.map(function (todo) {
       if (todo.id === id) {
         todo.todoItem = todoItem;
+        todo.isChecked = isChecked;
       }
       return todo;
     });
@@ -261,39 +349,41 @@ window.onload = function () {
   } //end of updateEditToLocalStorage function
   
   /**
-   * getInitialTodoList function - gets the toDoList from localStorage
+   * @description - get the toDoList from localStorage
    * @returns {*[]|any}
    */
-  function getInitialTodoList () {
-    //!**************** get the todoList ****************!//
+  function getInitialTodoList() {
+    //**************** get the todoList ****************//
     const localTodoList = localStorage.getItem('toDoList');
     
-    //!*** parse todoList to json format if not empty ***!//
+    //*** parse todoList to json format if not empty ***//
     if (localTodoList) {
       return JSON.parse(localTodoList);
     }
-    //!**************** localStorage is empty, set it to 'todoList' ****************!//
+    //**************** localStorage is empty, set it to 'todoList' ****************//
     localStorage.setItem('toDoList', []);
     return [];
   } //end of getInitialTodoList function
   
   /**
-   * getLocalStorage function - gets the toDoList from localStorage
+   * @description - get the toDoList from localStorage (merely a shorter code than the
+   * getInitialTodoList function)
    * @returns {any|*[]}
    */
-  function getLocalStorage () {
+  function getLocalStorage() {
     return localStorage.getItem('toDoList')
       ? JSON.parse(localStorage.getItem('toDoList'))
       : [];
   } //end of getLocalStorage function
   
   /**
-   * setToDefaultSettings function - resets the diffent variables to initial values
+   * @description - resets the different variables to initial values
    */
-  function setToDefaultSettings () {
+  function setToDefaultSettings() {
     addButton.innerText = 'Add Item';
     isEditing = false;
     editID = '';
+    editItemIsChecked = false;
     
     setTimeout(() => {
       addInput.value = '';
@@ -303,10 +393,10 @@ window.onload = function () {
   } //end of setToDefaultSettings function
   
   /**
-   * getCharacterCount function - get character count of input[type=text] and
-   * add the value to counter innerText.
+   * @description - get the character count of input[type=text] and add the value to
+   * the counter innerText.
    */
-  function getCharacterCount () {
+  function getCharacterCount() {
     let characterCount = maxLength - addInput.value.length;
     if (characterCount < 10) {
       counter.innerText = `0${characterCount}`;
