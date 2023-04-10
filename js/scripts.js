@@ -25,9 +25,21 @@ window.onload = function () {
   let editItemText;
   let editItemIsChecked = false;
   
-  if (windowScreen <= 360) {
-    addInput.setAttribute('maxlength', 25);
-    counter.innerText = 25;
+  if (navigator.storage && navigator.storage.persisted) {
+    //always feature detect
+    // persisted() - has this been marked as persisted
+    // persist() - permissions request
+    navigator.storage.persisted().then((wellWasIt) => {
+      console.log({ wellWasIt });
+      navigator.storage.persist().then((allowed) => {
+        console.log({ allowed });
+      });
+    });
+  }
+  
+  if (windowScreen <= 320) {
+    addInput.setAttribute('maxlength', 24);
+    counter.innerText = 24;
   } else {
     addInput.setAttribute('maxlength', 28);
     counter.innerText = 28;
