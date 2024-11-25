@@ -30,9 +30,9 @@ window.onload = function () {
     // persisted() - has this been marked as persisted
     // persist() - permissions request
     navigator.storage.persisted().then((wellWasIt) => {
-      console.log({ wellWasIt });
+
       navigator.storage.persist().then((allowed) => {
-        console.log({ allowed });
+
       });
     });
   }
