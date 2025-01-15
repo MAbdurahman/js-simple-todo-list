@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=DM+Serif+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans&family=DM+Serif+Display&display=swap');
 
-/* =========================================
-              Website Resets
-============================================ */
+/*===============================================================
+          Website Resets
+==================================================================*/
 *,
 *::after,
 *::before {
@@ -25,9 +25,9 @@
     outline: none;
 }
 
-/*=============================================
+/*===============================================================
           root, html, and body styles
-================================================*/
+==================================================================*/
 html {
 
     font-size: 100%;
@@ -76,9 +76,9 @@ body {
     }
 }
 
-/* =========================================
-              Preloader
-============================================ */
+/*===============================================================
+          preloader styles
+==================================================================*/
 #preloader {
     position: fixed;
     top: 0;
@@ -100,12 +100,12 @@ body {
     align-self: center;
 }
 
-/*=============================================
-          #main styles
-================================================*/
+
+/*===============================================================
+          main styles
+==================================================================*/
 #main {
     max-width: 640px;
-    width: 560px;
     width: 640px;
     margin: 0 auto;
     display: flex;
@@ -143,14 +143,11 @@ body {
 }
 
 .input-section {
-    /* display: flex; */
-    /* flex-flow: row; */
     flex-basis: 65%;
     position: relative;
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
-    border: 4px solid #111111;
     border: 4px solid #404040;
     border-right: none;
     border-top-left-radius: 5px;
@@ -193,7 +190,6 @@ body {
 }
 
 #list-container {
-    width: 98%;
     width: 100%;
     margin-top: 30px;
     display: flex;
@@ -202,6 +198,8 @@ body {
 }
 
 ul#list {
+    position: relative;
+    top: 0;
     list-style-type: none;
     font-size: 1.150rem;
     flex-basis: 100%;
@@ -210,10 +208,10 @@ ul#list {
 }
 
 span.custom-label {
-    width: 15%;
+    width: 12%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 @media (max-width: 576px) {
@@ -222,9 +220,10 @@ span.custom-label {
         margin-left: -1em;
     }
 }
-/* =============================================
-               button
-   ============================================= */
+
+/*===============================================================
+          buttons
+==================================================================*/
 .button {
     padding: .5em 1em;
     border: 3px solid #404040;
@@ -270,11 +269,13 @@ span.custom-label {
     background-color: #111111;
 }
 
-/*=============================================
-      checkbox
-================================================*/
+/*===============================================================
+          to-do-item and input [type='checkbox']
+==================================================================*/
 
 li.todo-item {
+    /*position: absolute;*/
+    position: static;
     width: 108%;
     display: flex;
     flex-direction: row;
@@ -314,7 +315,6 @@ input[type="checkbox"]:checked {
 }
 
 span.item {
-    width: 100%;
     width: fit-content;
     font-size: 1.5rem;
     font-weight: 400;
@@ -327,8 +327,8 @@ span.item {
 }
 input.completed~span {
     text-decoration: line-through;
-/*     background: #626262; */
-    font-size: 1.5rem;
+    text-decoration-thickness: 5px;
+
 }
 
 /* remove default checkbox */
@@ -395,17 +395,13 @@ input.completed~span {
     transform: rotate(50deg);
 }
 
-/* =============================================
-      icon
-   ============================================= */
+/*===============================================================
+          font-awesome icons
+==================================================================*/
 .fas {
     color: #111111;
     cursor: pointer;
     transition: color 0.333s ease-in-out;
-}
-
-.fas:hover {
-
 }
 
 .fas.fa-trash-alt:hover {
@@ -413,7 +409,5 @@ input.completed~span {
 }
 
 .fas.fa-edit:hover {
-    color: rgb(243, 173, 31);
-    color: rgb(37, 121, 176);
     color: rgb(67, 105, 225);
 }

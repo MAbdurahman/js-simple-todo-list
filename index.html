@@ -20,28 +20,30 @@
 <div id="preloader">
     <img src="img/preloader.gif" alt="loading spinner" id="preloader-gif"/>
 </div>
-<!-- end of preloader -->
+<!-- begin of main -->
 <div class="wrapper">
-
     <div id="main">
         <div id="header">
             <div id="title">ToDo App</div>
         </div>
         <div id="add-container">
             <section class="input-section">
-                <input id="add-input" type="text" autocomplete="on" placeholder="Enter todo item" maxlength="28"/>
-                <span id="counter" class="counter">28</span>
+                <label for="add-input" style="display: none;"></label>
+                <input autocomplete="on" id="add-input" maxlength="28"
+                       placeholder="Enter todo item" type="text"/>
+                <span class="counter" id="counter">28</span>
             </section>
-            <button id="add-button" class="button">Add Item</button>
+            <button type="button" class="button" id="add-button">Add Item</button>
         </div>
         <div id="list-container">
             <ul id="list"></ul>
         </div>
     </div>
     <template id="template">
-        <li class="todo-item">
+        <li class="todo-item" draggable="true">
             <label class="custom">
-                <input class="checkbox" type="checkbox" name="item" autocomplete="on"/>
+                <input autocomplete="on" class="checkbox" name="item"
+                       type="checkbox"/>
                 <span class="item"></span>
                 <span class="checkmark"></span>
             </label>
@@ -51,10 +53,9 @@
             </span>
         </li>
     </template>
-
 </div>
 <!-- jquery scripts -->
-<script type="text/javascript" src="./js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="./js/jquery-3.7.1.min.js"></script>
 <!-- sweatalert scripts -->
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <!-- scripts js-->
